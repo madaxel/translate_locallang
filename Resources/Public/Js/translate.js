@@ -4,9 +4,23 @@ window.addEventListener('DOMContentLoaded', function() {
 	var dragging = false;
 	var i, l;
 
-	var rows = document.getElementsByClassName('translate-row');
+	var table = document.getElementById('translate-table');
+	if (!table)
+		return;
+	var rows = table.getElementsByClassName('translate-row');
 	for (i = 0, l = rows.length; i < l; i++) {
 		initrow(rows[i]);
+	}
+	var filter = document.getElementById('translate-filter');
+	if (filter) {
+		var inputs = table.getElementsByTagName('input');
+		filter.addEventListener('keyup', function (e) {
+			for (i = 0, l = inputs.length; i < l; i++)
+				if (inputs[i].value.indexOf(filter.value) === -1)
+					inputs[i].parentNode.parentNode.style.display = 'none';
+				else
+					inputs[i].parentNode.parentNode.style.display = '';
+		});
 	}
 
 	function initrow(row) {

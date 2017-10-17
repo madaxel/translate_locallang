@@ -9,7 +9,10 @@
 	<div class="form-group">
 		<f:form.submit value="{f:translate(key:'save')}" disabled="{disableSaveButtons}" class="btn btn-default" />
 	</div>
-	<div class="translate-table form-group">
+	<div class="form-group">
+		<f:form.textfield name="filter" id="translate-filter" value="" placeholder="{f:translate(key:'filter')}" class="form-control input-sm" />
+	</div>
+	<div id="translate-table" class="form-group">
 		<div class="translate-row header">
 			<div>key</div>
 			<div>{conf.defaultLangKey} (default)</div>
