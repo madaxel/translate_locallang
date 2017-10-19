@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', function() {
 	var el_act = null;	//current drag elem
 	var el_last = null;	//last element with a highlight border
 	var dragging = false;
-	var i, l;
+	var i, j, l;
 
 	var table = document.getElementById('translate-table');
 	if (!table)
@@ -11,16 +11,52 @@ window.addEventListener('DOMContentLoaded', function() {
 	for (i = 0, l = rows.length; i < l; i++) {
 		initrow(rows[i]);
 	}
-	var filter = document.getElementById('translate-filter');
-	if (filter) {
-		var inputs = table.getElementsByTagName('input');
-		filter.addEventListener('keyup', function (e) {
-			for (i = 0, l = inputs.length; i < l; i++)
-				if (inputs[i].value.indexOf(filter.value) === -1)
-					inputs[i].parentNode.parentNode.style.display = 'none';
-				else
-					inputs[i].parentNode.parentNode.style.display = '';
-		});
+	var filter_key = document.getElementById('translate-filter-key');
+	if (filter_key) {
+		var filter_nd = document.getElementById('translate-filter-nd');
+		var filter_nt = document.getElementById('translate-filter-nt');
+		var inputs = table.getElementsByTagName('input'); //XXX
+		filter_key.addEventListener('keyup', filterKey);
+		filter_nd.addEventListener('change', filterCheck);
+		filter_nt.addEventListener('change', filterCheck);
+	}
+
+	function filterKey() {
+		for (i = 0, l = inputs.length; i < l; i++)
+			if (inputs[i].value.indexOf(filter_key.value) === -1)
+				inputs[i].parentNode.parentNode.style.display = 'none';
+			else
+				inputs[i].parentNode.parentNode.style.display = '';
+	}
+	function filterCheck() {
+		filterNonTranslated();
+	}
+	function filterNonTranslated() {
+		for (i = 0, l = inputs.length; i < l; i++) {
+			var textareas = inputs[i].parentNode.parentNode.getElementsByTagName('textarea');
+			var display = 'none';
+			if (filter_nt.checked) {
+				for (j = 1; j < textareas.length; j++) {
+					if (textareas[j].value === '') {
+						display = '';
+						break;
+					}
+				}
+			}
+			if (filter_nd.checked) {
+				if (textareas[0].value === '')
+					display = ''
+			}
+			if (!filter_nt.checked && !filter_nd.checked)
+				display = ''
+			inputs[i].parentNode.parentNode.style.display = display;
+		}
+	}
+	function filterNoDefault() {
+		for (i = 0, l = inputs.length; i < l; i++) {
+			var textareas = inputs[i].parentNode.parentNode.getElementsByTagName('textarea');
+			inputs[i].parentNode.parentNode.style.display = (textareas[0].value !== '') ? 'none': '';
+		}
 	}
 
 	function initrow(row) {
@@ -111,7 +147,6 @@ window.addEventListener('DOMContentLoaded', function() {
 			var nname = 'tx_translatelocallang_tools_translatelocallangm1[keys]['+newkey+']';
 			inputs[0].setAttribute('name', nname);
 			inputs[0].value = '';
-
 			for (i = 0; i < textareas.length; i++) {
 				oname = textareas[i].getAttribute('name');
 				nname = oname.replace('][' + key + '][', '][' + newkey+ '][');

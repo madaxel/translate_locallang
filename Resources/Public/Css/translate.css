@@ -58,3 +58,15 @@ form.form-group select {
 form.form-group select.form-control[multiple] {
 	min-height: 0;
 }
+
+.form-group summary:focus {
+	outline-style: none;
+}
+.form-group summary {
+	display: list-item;
+	margin-bottom: 0.5em;
+	cursor: pointer;
+}
+.form-group details > div {
+	margin-left:1em;
+}

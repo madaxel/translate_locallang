@@ -9,12 +9,18 @@
 	<div class="form-group">
 		<f:form.submit value="{f:translate(key:'save')}" disabled="{disableSaveButtons}" class="btn btn-default" />
 	</div>
-	<div class="form-group">
-		<f:form.textfield name="filter" id="translate-filter" value="" placeholder="{f:translate(key:'filter')}" class="form-control input-sm" />
-	</div>
+	<details>
+		<summary>Filter</summary>
+		<div>
+			<f:form.textfield name="filter[key]" id="translate-filter-key" value="" placeholder="{f:translate(key:'filter')}" class="form-control input-sm" />
+			<span class="checkbox"><label><f:form.checkbox name="filter[nodefault]" id="translate-filter-nd" value="1" />Missing in default language</label></span>
+			<span class="checkbox"><label><f:form.checkbox name="filter[nontranslated]" id="translate-filter-nt" value="1" />Not translated</label></span>
+		</div>
+	</details>
+
 	<div id="translate-table" class="form-group">
 		<div class="translate-row header">
-			<div>key</div>
+			<div>Key</div>
 			<div>{conf.defaultLangKey} (default)</div>
 			<f:for each="{langKeys}" as="langKey">
 				<f:if condition="{langKey} != 'default'"><div>{langKey}</div></f:if>

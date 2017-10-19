@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-10-17T18:20:03Z" product-name="translate_locallang">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-10-19T17:35:02Z" product-name="translate_locallang">
 		<header/>
 		<body>
 			<trans-unit id="title">
@@ -34,7 +34,7 @@
 				<source>Search in all extensions</source>
 			</trans-unit>
 			<trans-unit id="filter">
-				<source>Filter</source>
+				<source>Key</source>
 			</trans-unit>
 		</body>
 	</file>
