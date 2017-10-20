@@ -17,45 +17,37 @@ window.addEventListener('DOMContentLoaded', function() {
 		var filter_nt = document.getElementById('translate-filter-nt');
 		var inputs = table.getElementsByTagName('input'); //XXX
 		filter_key.addEventListener('keyup', filterKey);
-		filter_nd.addEventListener('change', filterCheck);
-		filter_nt.addEventListener('change', filterCheck);
+		filter_nd.addEventListener('change', filterEmpty);
+		filter_nt.addEventListener('change', filterEmpty);
 	}
 
 	function filterKey() {
+		filter_nd.checked = false;
+		filter_nt.checked = false;
 		for (i = 0, l = inputs.length; i < l; i++)
 			if (inputs[i].value.indexOf(filter_key.value) === -1)
 				inputs[i].parentNode.parentNode.style.display = 'none';
 			else
 				inputs[i].parentNode.parentNode.style.display = '';
 	}
-	function filterCheck() {
-		filterNonTranslated();
-	}
-	function filterNonTranslated() {
+
+	function filterEmpty() {
 		for (i = 0, l = inputs.length; i < l; i++) {
-			var textareas = inputs[i].parentNode.parentNode.getElementsByTagName('textarea');
 			var display = 'none';
-			if (filter_nt.checked) {
-				for (j = 1; j < textareas.length; j++) {
-					if (textareas[j].value === '') {
+			if (filter_nt.checked || filter_nd.checked) {
+				filter_key.value = '';
+				var textareas = inputs[i].parentNode.parentNode.getElementsByTagName('textarea');
+				for (j = 0; j < textareas.length; j++) {
+					var className = textareas[j].parentNode.getAttribute('class');
+					if ((filter_nt.checked && (className === 'nt')) || (filter_nd.checked && (className === 'nd'))) {
 						display = '';
 						break;
 					}
 				}
+			} else {
+				display = '';
 			}
-			if (filter_nd.checked) {
-				if (textareas[0].value === '')
-					display = ''
-			}
-			if (!filter_nt.checked && !filter_nd.checked)
-				display = ''
 			inputs[i].parentNode.parentNode.style.display = display;
-		}
-	}
-	function filterNoDefault() {
-		for (i = 0, l = inputs.length; i < l; i++) {
-			var textareas = inputs[i].parentNode.parentNode.getElementsByTagName('textarea');
-			inputs[i].parentNode.parentNode.style.display = (textareas[0].value !== '') ? 'none': '';
 		}
 	}
 
